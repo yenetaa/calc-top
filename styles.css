@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+  margin: 0;
+  background-color: black;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.phone-frame {
+  background-image: url(assets/iphone-mockup.png);
+  width: 327px;
+  height: 661px;
+  background-size: contain;
+  position: relative;
+}
+
+.time {
+  font-weight: 600;
+  font-size: 14px;
+
+  position: absolute;
+  top: 37px;
+  left: 42px;
+}
+
+.display {
+  font-size: 60px;
+  font-weight: 300;
+
+  position: absolute;
+  top: 179px;
+  right: 46px;
+}
+
+.buttons-wrapper {
+  width: 271px;
+  height: 342px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  position: absolute;
+  left: 28px;
+  top: 259px;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+button.zero {
+  width: 130px;
+  border-radius: 300px;
+  padding-left: 23px;
+  text-align: left;
+}
+
+.button.light-grey {
+  background-color: #A5A5A5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button.orange {
+  background-color: #F1A33B;
+}
+
+.button.dark-grey {
+  background-color: #333333;
+  color: white;
+  font-size: 26px;
+}
+
+.multiply {
+  padding-top: 5px;
+}
+
+.subtract {
+  padding-bottom: 10px
+}
