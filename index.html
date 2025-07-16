@@ -11,44 +11,46 @@
 <body>
   <div class="phone-frame">
     <div class="time js-time">12:00</div>
-    <div class="display js-display">941</div>
+    <div class="display js-display">0</div>
 
     <div class="buttons-wrapper">
       <div class="button-row">
-        <button class="button light-grey">AC</button>
+        <button class="button light-grey js-clear">AC</button>
         <button class="button light-grey"><img src="assets/plus-minus.svg" alt="plus minus sign" height="20px"></button>
         <button class="button light-grey"><img src="assets/percent.svg" alt="percentage sign" height="20px"></button>
-        <button class="button orange"><img src="assets/divide.svg" alt="divide sign" width="20px"></button>
+        <button data-value="/" data-display="÷" class="button orange"><img src="assets/divide.svg" alt="divide sign" width="20px"></button>
       </div>
 
       <div class="button-row">
         <button class="button dark-grey">7</button>
         <button class="button dark-grey">8</button>
         <button class="button dark-grey">9</button>
-        <button class="button orange multiply"><img src="assets/multiply.svg" alt="multiply sign" height="20px"></button>
+        <button data-value="*" data-display="×" class="button orange multiply"><img src="assets/multiply.svg" alt="multiply sign" height="20px"></button>
       </div>
 
       <div class="button-row">
         <button class="button dark-grey">4</button>
         <button class="button dark-grey">5</button>
         <button class="button dark-grey">6</button>
-        <button class="button orange subtract"><img src="assets/subtract.svg" alt="subtract sign" width="20px"></button>
+        <button data-value="-" data-display="-" class="button orange subtract"><img src="assets/subtract.svg" alt="subtract sign" width="20px"></button>
       </div>
 
       <div class="button-row">
         <button class="button dark-grey">1</button>
         <button class="button dark-grey">2</button>
         <button class="button dark-grey">3</button>
-        <button class="button orange"><img src="assets/add.svg" alt="add sign" height="20px"></button>
+        <button data-value="+" data-display="+" class="button orange"><img src="assets/add.svg" alt="add sign" height="20px"></button>
       </div>
 
       <div class="button-row">
         <button class="button zero dark-grey">0</button>
         <button class="button dark-grey">.</button>
-        <button class="button orange"><img src="assets/equals.svg" alt="equal sign" width="20px"></button>
+        <button class="button orange equals-button"><img src="assets/equals.svg" alt="equal sign" width="20px"></button>
       </div>
     </div>
   </div>
+
+  <script src="script.js"></script>
 </body>
 
 </html>

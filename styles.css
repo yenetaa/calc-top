@@ -18,6 +18,7 @@ body {
   height: 661px;
   background-size: contain;
   position: relative;
+  background-repeat: no-repeat;
 }
 
 .time {
@@ -31,7 +32,7 @@ body {
 
 .display {
   font-size: 60px;
-  font-weight: 300;
+  font-weight: 500;
 
   position: absolute;
   top: 179px;
