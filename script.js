@@ -50,7 +50,9 @@ digitButtons.forEach(button => {
     if (displayValue === '0' || resultJustEvaluated) {
       displayValue = digit;
       resultJustEvaluated = false;
-    } else {
+    } else if (displayValue.includes('.') && digit === '.') {
+      return;
+    }else {
       displayValue += digit;
     }
 
