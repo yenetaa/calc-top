@@ -8,10 +8,12 @@ function updateTime() {
 updateTime();
 setInterval(updateTime, 60000);
 
-
 let displayValue = '';
+let firstOperand = null;
+let currentOperator = null;
 let resultJustEvaluated = false;
-
+let waitingForSecondOperand = false;
+let showOperatorOnly = false;
 
 function add(a, b) {
   return a + b;
@@ -20,8 +22,7 @@ function subtract(a, b) {
   return a - b;
 }
 function divide(a, b) {
-  if (b === 0) return "Error";
-  return a / b;
+  return b === 0 ? 'Error' : a / b;
 }
 function multiply(a, b) {
   return a * b;
@@ -36,82 +37,91 @@ function operate(operator, a, b) {
   }
 }
 
-
 function updateDisplay() {
-  document.querySelector('.js-display').textContent = displayValue || '0';
+  const display = document.querySelector('.js-display');
+  if (showOperatorOnly) {
+    display.textContent = currentOperator === '*' ? '×' :
+                          currentOperator === '/' ? '÷' :
+                          currentOperator;
+  } else {
+    display.textContent = displayValue || '';
+  }
+  const length = display.textContent.length;
+  if (length >= 10) {
+    display.style.fontSize = '2rem';
+  } else if (length >= 7) {
+    display.style.fontSize = '2.5rem';
+  } else {
+    display.style.fontSize = '3.5rem';
+  }
 }
 
+function resetCalculator() {
+  displayValue = '';
+  firstOperand = null;
+  currentOperator = null;
+  resultJustEvaluated = false;
+  waitingForSecondOperand = false;
+  showOperatorOnly = false;
+  updateDisplay();
+}
 
 const digitButtons = document.querySelectorAll('.dark-grey');
 digitButtons.forEach(button => {
   button.addEventListener('click', (e) => {
     const digit = e.target.textContent;
-
-    if (displayValue === '0' || resultJustEvaluated) {
-      displayValue = digit;
+    if (resultJustEvaluated || waitingForSecondOperand || showOperatorOnly) {
+      displayValue = '';
       resultJustEvaluated = false;
-    } else if (displayValue.includes('.') && digit === '.') {
-      return;
-    }else {
-      displayValue += digit;
+      waitingForSecondOperand = false;
+      showOperatorOnly = false;
     }
-
+    if (displayValue.length >= 5) return;
+    if (digit === '.' && displayValue.includes('.')) return;
+    displayValue += digit;
     updateDisplay();
   });
 });
-
 
 const operatorButtons = document.querySelectorAll('[data-display]');
 operatorButtons.forEach(button => {
   button.addEventListener('click', () => {
     const operatorSymbol = button.dataset.display;
-    const lastChar = displayValue.slice(-1);
-
-    if (['+', '-', '×', '÷'].includes(lastChar)) {
-      
-      displayValue = displayValue.slice(0, -1) + operatorSymbol;
-    } else {
-      displayValue += operatorSymbol;
+    const jsOperator = operatorSymbol === '×' ? '*' : operatorSymbol === '÷' ? '/' : operatorSymbol;
+    if (displayValue === '' && firstOperand === null) return;
+    if (firstOperand !== null && currentOperator && !waitingForSecondOperand) {
+      const secondOperand = parseFloat(displayValue);
+      if (!isNaN(secondOperand)) {
+        const result = operate(currentOperator, firstOperand, secondOperand);
+        displayValue = result.toString();
+        updateDisplay();
+        firstOperand = result;
+      }
+    } else if (displayValue !== '') {
+      firstOperand = parseFloat(displayValue);
     }
-
+    currentOperator = jsOperator;
+    waitingForSecondOperand = true;
     resultJustEvaluated = false;
+    showOperatorOnly = true;
     updateDisplay();
   });
 });
 
-
 const resultButton = document.querySelector('.equals-button');
 resultButton.addEventListener('click', () => {
-  const operators = ['+', '-', '×', '÷'];
-  let operatorFound;
-
-  for (let op of operators) {
-    if (displayValue.includes(op)) {
-      operatorFound = op;
-      break;
-    }
-  }
-
-  if (!operatorFound) return;
-
-  const [firstOperand, secondOperand] = displayValue.split(operatorFound);
-  const a = parseFloat(firstOperand);
-  const b = parseFloat(secondOperand);
-
-  if (isNaN(a) || isNaN(b)) return;
-
-  const jsOperator = operatorFound === '×' ? '*' : operatorFound === '÷' ? '/' : operatorFound;
-  const result = operate(jsOperator, a, b);
-
+  if (firstOperand === null || currentOperator === null || displayValue === '') return;
+  const secondOperand = parseFloat(displayValue);
+  if (isNaN(secondOperand)) return;
+  const result = operate(currentOperator, firstOperand, secondOperand);
   displayValue = result.toString();
   updateDisplay();
+  firstOperand = result;
+  currentOperator = null;
   resultJustEvaluated = true;
+  waitingForSecondOperand = false;
+  showOperatorOnly = false;
 });
-
 
 const clearButton = document.querySelector('.js-clear');
-clearButton.addEventListener('click', () => {
-  displayValue = '';
-  resultJustEvaluated = false;
-  updateDisplay();
-});
+clearButton.addEventListener('click', resetCalculator);
